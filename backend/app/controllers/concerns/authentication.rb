@@ -32,9 +32,6 @@ module Authentication
       session[:return_to_after_authenticating] = request.url
     end
 
-    def after_authentication_url
-      session.delete(:return_to_after_authenticating) || root_url
-    end
 
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
