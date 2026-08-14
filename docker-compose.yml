@@ -24,8 +24,8 @@ services:
       DATABASE_NAME: marketplace
     volumes:
       - ./backend/app:/rails/app
+      - ./backend/db:/rails/db
       - ./backend/config:/rails/config
-
   frontend:
     build:
       context: ./frontend
