@@ -20,7 +20,6 @@ class ItemsController < ApplicationController
       render json: { id: item.id }, status: :created
     else
       render json: { errors: item.errors }, status: :unprocessable_entity
-
     end
   end
 
