@@ -14,7 +14,10 @@ class ItemPhotosController < ApplicationController
 
   def create
     item = Current.user.items.find(params[:item_id])
-    params.require(:photos).each { |p| item.item_photo.attach(p) }
+    photos = params.require(:photos)
+    if photos
+      Array.wrap(photos).each { |p| item.item_photo.attach(p) }
+    end
   end
 
   def update

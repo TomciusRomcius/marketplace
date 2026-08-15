@@ -29,4 +29,14 @@ export class ItemsService {
       .get<ItemsResponse>(`${this.baseUrl}/items`, { withCredentials: true })
       .pipe(map((response) => response.items));
   }
+
+  createItem(payload: {
+    title: string;
+    description: string;
+    price_cents: number;
+  }): Observable<{ id: number }> {
+    return this.http.post<{ id: number }>(`${this.baseUrl}/items`, payload, {
+      withCredentials: true,
+    });
+  }
 }
