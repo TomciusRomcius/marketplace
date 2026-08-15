@@ -5,20 +5,47 @@
     @if (items.length === 0) {
       <p class="text-slate-600">No items available.</p>
     } @else {
-      <div class="grid grid-cols-8 gap-4">
+      <div class="grid grid-cols-4 gap-4">
         @for (item of items; track item.id) {
           <article
-            class="flex flex-col rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
+            class="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
           >
-            <h2 class="mb-1 line-clamp-2 text-sm font-medium text-slate-900">
-              {{ item.title }}
-            </h2>
-            <p class="mb-3 line-clamp-3 flex-1 text-xs text-slate-600">
-              {{ item.description }}
-            </p>
-            <p class="text-sm font-semibold text-slate-900">
-              {{ item.price_cents / 100 | currency }}
-            </p>
+            <div class="aspect-square overflow-hidden bg-slate-100">
+              @if (item.image_url) {
+                <img
+                  [src]="item.image_url"
+                  [alt]="item.title"
+                  class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                />
+              } @else {
+                <div
+                  class="flex h-full w-full items-center justify-center text-xs font-medium text-slate-400"
+                >
+                  No image
+                </div>
+              }
+            </div>
+
+            <div class="flex flex-1 flex-col gap-2 p-3">
+              <h2
+                class="line-clamp-2 text-sm font-semibold leading-snug text-slate-900"
+              >
+                {{ item.title }}
+              </h2>
+              <p class="line-clamp-2 flex-1 text-xs leading-relaxed text-slate-500">
+                {{ item.description }}
+              </p>
+              <p class="text-sm font-semibold text-slate-900">
+                {{ item.price_cents / 100 | currency }}
+              </p>
+              <app-button
+                type="accent"
+                htmlType="button"
+                (click)="viewItem(item.id)"
+              >
+                View
+              </app-button>
+            </div>
           </article>
         }
       </div>
