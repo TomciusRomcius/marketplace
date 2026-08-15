@@ -2,6 +2,10 @@ class ItemsController < ApplicationController
   def index
     render json: {items: Item.limit(10).to_a }, status: :ok
   end
+
+  def mine
+    render json: { items: Current.user.items.to_a }, status: :ok
+  end
   
   def show
     id = params[:id]
