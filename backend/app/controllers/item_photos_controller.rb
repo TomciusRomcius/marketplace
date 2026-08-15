@@ -4,7 +4,7 @@ class ItemPhotosController < ApplicationController
     item = Item.find(item_id)
     photos = item.item_photo.map do |p|
       {
-        id: photo.id,
+        id: p.id,
         url: url_for(photo),
         content_type: photo.content_type
       }
