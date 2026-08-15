@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { itemsResolver } from './resolvers/items-resolver';
 import { myItemsResolver } from './resolvers/my-items-resolver';
-import { Browse } from './views/browse';
-import { ListItem } from './views/list-item';
-import { Login } from './views/login';
-import { MyItems } from './views/my-items';
-import { Signup } from './views/signup';
+import { Browse } from './views/browse/browse';
+import { ListItem } from './views/list-item/list-item';
+import { Login } from './views/login/login';
+import { MyItems } from './views/my-items/my-items';
+import { Signup } from './views/signup/signup';
 
 export const routes: Routes = [
   { path: 'login', component: Login },

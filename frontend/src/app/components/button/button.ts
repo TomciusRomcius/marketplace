@@ -18,15 +18,7 @@ const TYPE_CLASSES: Record<ButtonType, string> = {
 
 @Component({
   selector: 'app-button',
-  template: `
-    <button
-      [attr.type]="htmlType()"
-      [disabled]="disabled()"
-      [class]="classes()"
-    >
-      <ng-content />
-    </button>
-  `,
+  templateUrl: './button.html',
 })
 export class Button {
   readonly type = input<ButtonType>('accent');
