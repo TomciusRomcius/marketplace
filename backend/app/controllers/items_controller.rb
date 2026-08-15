@@ -1,6 +1,12 @@
 class ItemsController < ApplicationController
   def index
-    render json: {items: Item.limit(10).to_a }, status: :ok
+    items = Item.limit(10).with_attached_item_photo.map do |item|
+      photo = item.item_photo.first
+      item.as_json.merge(
+        image_url: photo ? url_for(photo) : nil
+      )
+    end
+    render json: { items: items }, status: :ok
   end
 
   def mine
