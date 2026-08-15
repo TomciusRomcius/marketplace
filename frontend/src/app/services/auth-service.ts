@@ -17,4 +17,12 @@ export class AuthService {
       { withCredentials: true },
     );
   }
+
+  signUp(email: string, password: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/users`,
+      { email_address: email, password },
+      { withCredentials: true },
+    );
+  }
 }
