@@ -1,12 +1,18 @@
 class ItemsController < ApplicationController
   def index
-    items = Item.limit(10).with_attached_item_photo.map do |item|
+    cursor_id = params[:cursor_id]
+    query = Item
+      .order(id: :asc)
+    query = cursor_id != nil ? query.where("id > ?", cursor_id) : query
+    query = query.limit(10)
+      .with_attached_item_photo
+      .map do |item|
       photo = item.item_photo.first
       item.as_json.merge(
         image_url: photo ? url_for(photo) : nil
       )
     end
-    render json: { items: items }, status: :ok
+    render json: { items: query.to_a }, status: :ok
   end
 
   def mine
