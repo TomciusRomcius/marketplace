@@ -17,41 +17,7 @@ const INPUT_ERROR_CLASSES =
 @Component({
   selector: 'app-form-field',
   imports: [ReactiveFormsModule],
-  template: `
-    <div class="mb-4">
-      <label
-        [attr.for]="controlId"
-        class="mb-1.5 block text-sm font-medium text-slate-700"
-      >
-        {{ label() }}
-      </label>
-
-      @if (type() === 'textarea') {
-        <textarea
-          [id]="controlId"
-          [formControl]="control()"
-          rows="4"
-          [class]="fieldClasses()"
-        ></textarea>
-      } @else {
-        <input
-          [id]="controlId"
-          [type]="type()"
-          [formControl]="control()"
-          [attr.autocomplete]="autocomplete() || null"
-          [attr.step]="type() === 'number' ? '0.01' : null"
-          [attr.min]="type() === 'number' ? '0' : null"
-          [class]="fieldClasses()"
-        />
-      }
-
-      @if (showError()) {
-        <p class="mt-1.5 text-sm text-red-600">
-          {{ errorText() }}
-        </p>
-      }
-    </div>
-  `,
+  templateUrl: './form-field.html',
 })
 export class FormField {
   private static nextId = 0;

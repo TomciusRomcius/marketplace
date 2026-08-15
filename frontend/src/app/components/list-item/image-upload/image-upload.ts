@@ -17,47 +17,7 @@ interface Preview {
 @Component({
   selector: 'app-image-upload',
   imports: [Button],
-  template: `
-    <div class="flex flex-wrap items-start gap-3">
-      <div
-        class="flex h-36 w-36 flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-3"
-      >
-        <p class="text-center text-sm font-medium text-slate-600">
-          Upload image
-        </p>
-        <div class="w-full">
-          <app-button
-            type="regular"
-            htmlType="button"
-            [disabled]="disabled()"
-            (click)="openFilePicker()"
-          >
-            Choose files
-          </app-button>
-        </div>
-        <input
-          #fileInput
-          type="file"
-          accept="image/*"
-          multiple
-          class="hidden"
-          (change)="onFilesSelected($event)"
-        />
-      </div>
-
-      @for (preview of previews(); track preview.url) {
-        <div
-          class="relative h-36 w-36 overflow-hidden rounded-lg border border-slate-200 bg-white"
-        >
-          <img
-            [src]="preview.url"
-            [alt]="preview.file.name"
-            class="h-full w-full object-cover"
-          />
-        </div>
-      }
-    </div>
-  `,
+  templateUrl: './image-upload.html',
 })
 export class ImageUpload implements OnDestroy {
   readonly files = model<File[]>([]);
