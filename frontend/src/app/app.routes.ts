@@ -14,6 +14,7 @@ export const routes: Routes = [
     path: 'browse',
     component: Browse,
     resolve: { items: itemsResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   { path: 'list-item', component: ListItem },
   {

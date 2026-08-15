@@ -2,11 +2,11 @@
   <div class="mx-auto max-w-7xl">
     <h1 class="mb-6 text-2xl font-semibold text-slate-900">Browse</h1>
 
-    @if (items.length === 0) {
+    @if (items().length === 0 && anyAdditionalRecords()) {
       <p class="text-slate-600">No items available.</p>
     } @else {
       <div class="grid grid-cols-4 gap-4">
-        @for (item of items; track item.id) {
+        @for (item of items(); track item.id) {
           <article
             class="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
           >
@@ -49,6 +49,11 @@
           </article>
         }
       </div>
+
+      <app-cursor-paginator
+        [nextCursorId]="nextCursorId()"
+        [anyAdditionalRecords]="anyAdditionalRecords()"
+      />
     }
   </div>
 </div>

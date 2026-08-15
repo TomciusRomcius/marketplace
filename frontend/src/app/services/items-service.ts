@@ -25,9 +25,14 @@ export class ItemsService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  getItems(): Observable<Item[]> {
+  getItems(cursorId = 0): Observable<Item[]> {
+    const params = cursorId > 0 ? { cursor_id: cursorId } : undefined;
+
     return this.http
-      .get<ItemsResponse>(`${this.baseUrl}/items`, { withCredentials: true })
+      .get<ItemsResponse>(`${this.baseUrl}/items`, {
+        params,
+        withCredentials: true,
+      })
       .pipe(map((response) => response.items));
   }
 
