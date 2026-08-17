@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
 
   def create
     item_params = params.permit(:title, :description, :price_cents)
-    item = Item.create(item_params.merge(seller: Current.user))
+    item = Item.create(item_params.merge(seller: Current.user, status: "archived"))
     if item.save
       render json: { id: item.id }, status: :created
     else
