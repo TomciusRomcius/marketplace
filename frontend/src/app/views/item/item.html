@@ -11,7 +11,19 @@
         {{ item.price_cents / 100 | currency }}
       </p>
       <div class="mt-2 max-w-xs">
-        <app-button type="accent" htmlType="button">Buy</app-button>
+        @if (error()) {
+          <p class="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            {{ error() }}
+          </p>
+        }
+        <app-button
+          type="accent"
+          htmlType="button"
+          [disabled]="purchasing() || item.status === 'sold'"
+          (click)="onBuy()"
+        >
+          {{ purchasing() ? 'Buying…' : item.status === 'sold' ? 'Sold' : 'Buy' }}
+        </app-button>
       </div>
     </div>
   </div>

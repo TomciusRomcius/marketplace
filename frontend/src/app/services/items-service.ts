@@ -90,4 +90,10 @@ export class ItemsService {
       withCredentials: true,
     });
   }
+
+  purchaseItem(id: number): Observable<void> {
+    return this.http.get<void>(`${this.baseUrl}/items/${id}/purchase`, {
+      withCredentials: true,
+    });
+  }
 }

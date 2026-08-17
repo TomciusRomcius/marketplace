@@ -76,4 +76,20 @@ class ItemsController < ApplicationController
       head :not_found 
     end
   end
+
+  def purchase
+    item_id = params.expect(:id)
+    item = Item.find_by(id: item_id)
+    unless item
+      render json: { message: "Item does not exist" }, status: :not_found
+    end
+    if Current.user.id == item.seller_id
+      render json: { message: "You cannot buy the item you own" }, status: :bad_request
+    end
+    ActiveRecord::Base.transaction do
+      item.update!(status: "sold")
+      # TODO: persist purchase
+    end
+    head :ok
+  end
 end

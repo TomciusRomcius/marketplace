@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resource :session
   resources :items do
     get :mine, on: :collection
+    get :purchase, on: :member
   end
   resources :item_photos, only: %i[index create destroy]
   resources :passwords, param: :token

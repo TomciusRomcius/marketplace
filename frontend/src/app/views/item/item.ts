@@ -1,9 +1,13 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { ImageCarousel } from '../../components/image-carousel/image-carousel';
-import { Item as ItemModel } from '../../services/items-service';
+import {
+  Item as ItemModel,
+  ItemsService,
+} from '../../services/items-service';
 
 @Component({
   selector: 'app-item',
@@ -12,7 +16,29 @@ import { Item as ItemModel } from '../../services/items-service';
 })
 export class Item {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly itemsService = inject(ItemsService);
 
   readonly item = this.route.snapshot.data['item'] as ItemModel;
   readonly imageUrls = this.item.image_urls ?? [];
+  readonly purchasing = signal(false);
+  readonly error = signal<string | null>(null);
+
+  onBuy(): void {
+    this.error.set(null);
+    this.purchasing.set(true);
+
+    this.itemsService.purchaseItem(this.item.id).subscribe({
+      next: () => {
+        this.purchasing.set(false);
+        void this.router.navigateByUrl('/browse');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.purchasing.set(false);
+        this.error.set(
+          err.error?.message ?? 'Unable to purchase item. Please try again.',
+        );
+      },
+    });
+  }
 }
