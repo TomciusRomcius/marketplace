@@ -1,6 +1,13 @@
 <div class="min-h-screen bg-slate-50 px-4 py-8">
   <div class="mx-auto max-w-3xl">
-    <h1 class="mb-6 text-2xl font-semibold text-slate-900">My items</h1>
+    <div class="mb-6 flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-semibold text-slate-900">My items</h1>
+      <div class="w-40 shrink-0">
+        <app-button type="accent" htmlType="button" (click)="listNewItem()">
+          List new item
+        </app-button>
+      </div>
+    </div>
 
     @if (error()) {
       <p class="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">

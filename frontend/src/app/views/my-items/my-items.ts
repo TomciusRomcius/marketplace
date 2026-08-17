@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Button } from '../../components/button/button';
 import { Item, ItemsService } from '../../services/items-service';
@@ -12,11 +12,16 @@ import { Item, ItemsService } from '../../services/items-service';
 })
 export class MyItems {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly itemsService = inject(ItemsService);
 
   readonly items = signal(this.route.snapshot.data['items'] as Item[]);
   readonly deletingId = signal<number | null>(null);
   readonly error = signal<string | null>(null);
+
+  listNewItem(): void {
+    void this.router.navigateByUrl('/list-item');
+  }
 
   onDelete(id: number): void {
     this.error.set(null);
