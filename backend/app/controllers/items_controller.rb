@@ -25,9 +25,14 @@ class ItemsController < ApplicationController
   
   def show
     id = params[:id]
-    item = Item.find_by(id: id)
+    item = Item.with_attached_item_photo.find_by(id: id)
     if item
-      render json: { item: item }, status: :ok
+      item_photos = item.item_photo.map do |photo|
+        url_for(photo)
+      end
+      render json: {
+        item: item.as_json.merge(image_urls: item_photos),
+      }, status: :ok
     else
       render status: :not_found
     end

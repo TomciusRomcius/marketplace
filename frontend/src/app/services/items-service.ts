@@ -12,10 +12,15 @@ export interface Item {
   created_at: string;
   updated_at: string;
   image_url?: string | null;
+  image_urls?: string[];
 }
 
 interface ItemsResponse {
   items: Item[];
+}
+
+interface ItemResponse {
+  item: Item;
 }
 
 @Injectable({
@@ -40,6 +45,14 @@ export class ItemsService {
         withCredentials: true,
       })
       .pipe(map((response) => response.items));
+  }
+
+  getItem(id: number): Observable<Item> {
+    return this.http
+      .get<ItemResponse>(`${this.baseUrl}/items/${id}`, {
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.item));
   }
 
   getMyItems(): Observable<Item[]> {
