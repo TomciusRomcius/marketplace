@@ -25,8 +25,14 @@ export class ItemsService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  getItems(cursorId = 0): Observable<Item[]> {
-    const params = cursorId > 0 ? { cursor_id: cursorId } : undefined;
+  getItems(cursorId = 0, searchText?: string | null): Observable<Item[]> {
+    const params: Record<string, string | number> = {};
+    if (cursorId > 0) {
+      params['cursor_id'] = cursorId;
+    }
+    if (searchText) {
+      params['search_text'] = searchText;
+    }
 
     return this.http
       .get<ItemsResponse>(`${this.baseUrl}/items`, {

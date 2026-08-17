@@ -2,6 +2,8 @@
   <div class="mx-auto max-w-7xl">
     <h1 class="mb-6 text-2xl font-semibold text-slate-900">Browse</h1>
 
+    <app-search />
+
     @if (items().length === 0 && anyAdditionalRecords()) {
       <p class="text-slate-600">No items available.</p>
     } @else {

@@ -4,5 +4,9 @@ import { Item, ItemsService } from '../services/items-service';
 
 export const itemsResolver: ResolveFn<Item[]> = (route) => {
   const cursorId = Number(route.queryParamMap.get('cursor_id') ?? 0);
-  return inject(ItemsService).getItems(Number.isFinite(cursorId) ? cursorId : 0);
+  const searchText = route.queryParamMap.get('searchText');
+  return inject(ItemsService).getItems(
+    Number.isFinite(cursorId) ? cursorId : 0,
+    searchText,
+  );
 };

@@ -3,11 +3,12 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { CursorPaginator } from '../../components/cursor-paginator/cursor-paginator';
+import { Search } from '../../components/search/search';
 import { Item } from '../../services/items-service';
 
 @Component({
   selector: 'app-browse',
-  imports: [CurrencyPipe, Button, CursorPaginator],
+  imports: [CurrencyPipe, Button, CursorPaginator, Search],
   templateUrl: './browse.html',
 })
 export class Browse {
