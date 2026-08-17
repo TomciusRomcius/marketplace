@@ -224,13 +224,15 @@ PRODUCTS.each_with_index do |attrs, index|
     price_cents: attrs[:price_cents]
   )
 
-  image_url = "https://picsum.photos/seed/marketplace-#{index + 1}/600/600"
-  image_data = URI.open(image_url, redirect: true).read
-  item.item_photo.attach(
-    io: StringIO.new(image_data),
-    filename: "product-#{index + 1}.jpg",
-    content_type: "image/jpeg"
-  )
+  6.times do |photo_index|
+    image_url = "https://picsum.photos/seed/marketplace-#{index + 1}-#{photo_index + 1}/600/600"
+    image_data = URI.open(image_url, redirect: true).read
+    item.item_photo.attach(
+      io: StringIO.new(image_data),
+      filename: "product-#{index + 1}-#{photo_index + 1}.jpg",
+      content_type: "image/jpeg"
+    )
+  end
 
   puts "  created ##{item.id} #{item.title}"
 end
