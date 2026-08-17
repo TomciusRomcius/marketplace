@@ -27,23 +27,45 @@
               <h2 class="truncate text-base font-medium text-slate-900">
                 {{ item.title }}
               </h2>
-              <p class="mt-1 line-clamp-2 text-sm text-slate-600">
-                {{ item.description }}
-              </p>
               <p class="mt-2 text-sm font-semibold text-slate-900">
                 {{ item.price_cents / 100 | currency }}
               </p>
+              <p class="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+                {{ item.status }}
+              </p>
             </div>
 
-            <div class="w-28 shrink-0">
-              <app-button
-                type="delete"
-                htmlType="button"
-                [disabled]="deletingId() === item.id"
-                (click)="onDelete(item.id)"
-              >
-                {{ deletingId() === item.id ? 'Deleting…' : 'Delete' }}
-              </app-button>
+            <div class="flex w-36 shrink-0 flex-row gap-2 [&>app-button>button]:w-max">
+              @if (item.status === 'archived') {
+                <app-button
+                  type="regular"
+                  htmlType="button"
+                  [disabled]="updatingId() === item.id"
+                  (click)="onUpdateStatus(item.id, 'listed')"
+                >
+                  List item
+                </app-button>
+              }
+              @if (item.status === 'listed') {
+                <app-button
+                  type="grayed"
+                  htmlType="button"
+                  [disabled]="updatingId() === item.id"
+                  (click)="onUpdateStatus(item.id, 'archived')"
+                >
+                  Archive item
+                </app-button>
+              }
+              @if (item.status !== 'sold') {
+                <app-button
+                  type="delete"
+                  htmlType="button"
+                  [disabled]="deletingId() === item.id || updatingId() === item.id"
+                  (click)="onDelete(item.id)"
+                >
+                  {{ deletingId() === item.id ? 'Deleting…' : 'Delete' }}
+                </app-button>
+              }
             </div>
           </article>
         }

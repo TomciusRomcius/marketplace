@@ -55,9 +55,16 @@ class ItemsController < ApplicationController
 
   def update
     id = params.expect(:id)
-    Current.user.items
-      .where(id: id)
-      .update_all(**params.permit(:title, :description, :price_cents))
+    item = Current.user.items.find_by(id: id)
+    unless item
+      return head :not_found
+    end
+
+    if item.update(params.permit(:title, :description, :price_cents, :status))
+      head :no_content
+    else
+      render json: { errors: item.errors }, status: :unprocessable_entity
+    end
   end
 
   def destroy

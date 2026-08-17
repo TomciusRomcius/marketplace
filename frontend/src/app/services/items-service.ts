@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
+export type ItemStatus = 'archived' | 'listed' | 'sold';
+
 export interface Item {
   id: number;
   title: string;
   description: string;
   price_cents: number;
   seller_id: number;
+  status: ItemStatus;
   created_at: string;
   updated_at: string;
   image_url?: string | null;
@@ -69,6 +72,15 @@ export class ItemsService {
     price_cents: number;
   }): Observable<{ id: number }> {
     return this.http.post<{ id: number }>(`${this.baseUrl}/items`, payload, {
+      withCredentials: true,
+    });
+  }
+
+  updateItem(
+    id: number,
+    payload: Partial<Pick<Item, 'title' | 'description' | 'price_cents' | 'status'>>,
+  ): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/items/${id}`, payload, {
       withCredentials: true,
     });
   }
