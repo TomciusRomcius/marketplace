@@ -1,8 +1,12 @@
 class ItemsController < ApplicationController
   def index
+    search_text = params[:search_text]
     cursor_id = params[:cursor_id]
     query = Item
       .order(id: :asc)
+    if search_text
+      query = query.where("title ILIKE ?", "%#{search_text}%")
+    end
     query = cursor_id != nil ? query.where("id > ?", cursor_id) : query
     query = query.limit(10)
       .with_attached_item_photo
