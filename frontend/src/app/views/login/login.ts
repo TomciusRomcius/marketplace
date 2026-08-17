@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { AuthService } from '../../services/auth-service';
 
@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth-service';
 export class Login {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly submitting = signal(false);
   readonly serverError = signal<string | null>(null);
@@ -51,7 +52,7 @@ export class Login {
 
     this.auth.signIn(email, password).subscribe({
       next: () => {
-        this.submitting.set(false);
+        this.router.navigate(["/browse"])
       },
       error: (err: HttpErrorResponse) => {
         this.submitting.set(false);
