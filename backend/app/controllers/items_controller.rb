@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   def index
     search_text = params[:search_text]
     cursor_id = params[:cursor_id]
-    query = Item
+    query = Item.item_listed
       .order(id: :asc)
     if search_text
       query = query.where("title ILIKE ?", "%#{search_text}%")
@@ -26,16 +26,21 @@ class ItemsController < ApplicationController
   def show
     id = params[:id]
     item = Item.with_attached_item_photo.find_by(id: id)
-    if item
-      item_photos = item.item_photo.map do |photo|
-        url_for(photo)
-      end
-      render json: {
-        item: item.as_json.merge(image_urls: item_photos),
-      }, status: :ok
-    else
-      render status: :not_found
+    unless item
+      return render status: :not_found
     end
+
+    if !item.item_listed? and Current.user.id != item.seller_id
+      return head :forbidden
+    end
+
+    item_photos = item.item_photo.map do |photo|
+      url_for(photo)
+    end
+
+    render json: {
+      item: item.as_json.merge(image_urls: item_photos),
+    }, status: :ok
   end
 
   def create

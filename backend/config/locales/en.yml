@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      item:
+        status:
+          archived: "Archived"
+          listed: "Listed"
+          sold: "Sold"

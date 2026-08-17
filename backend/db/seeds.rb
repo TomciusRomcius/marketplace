@@ -221,7 +221,8 @@ PRODUCTS.each_with_index do |attrs, index|
   item = seller.items.create!(
     title: attrs[:title],
     description: attrs[:description],
-    price_cents: attrs[:price_cents]
+    price_cents: attrs[:price_cents],
+    status: "listed"
   )
 
   6.times do |photo_index|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_083754) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_17_093741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_083754) do
     t.string "description", limit: 255, null: false
     t.integer "price_cents", null: false
     t.bigint "seller_id", null: false
+    t.integer "status", default: 1, null: false
     t.string "title", limit: 64, null: false
     t.datetime "updated_at", null: false
     t.index ["seller_id"], name: "index_items_on_seller_id"
