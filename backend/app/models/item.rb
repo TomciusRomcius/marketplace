@@ -5,8 +5,4 @@ class Item < ApplicationRecord
   validates :title, presence: true, length: { minimum: 8, maximum: 64 }
   validates :description, presence: true, length: { minimum: 8, maximum: 255 }
   validates :price_cents, presence: true
-
-  def human_status(status)
-    I18n.t("activerecord.attributes.item.status.#{status}")
-  end
 end
