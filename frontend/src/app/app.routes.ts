@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { itemResolver } from './resolvers/item-resolver';
-import { itemsResolver } from './resolvers/items-resolver';
 import { myItemsResolver } from './resolvers/my-items-resolver';
 import { Browse } from './views/browse/browse';
 import { Item } from './views/item/item';
@@ -15,8 +14,6 @@ export const routes: Routes = [
   {
     path: 'browse',
     component: Browse,
-    resolve: { items: itemsResolver },
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'items/:id',

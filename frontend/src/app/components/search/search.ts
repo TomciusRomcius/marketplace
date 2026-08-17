@@ -32,7 +32,6 @@ export class Search {
         relativeTo: this.route,
         queryParams: {
           searchText: value || null,
-          cursor_id: null,
         },
         queryParamsHandling: 'merge',
       });

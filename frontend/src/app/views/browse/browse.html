@@ -55,6 +55,7 @@
       <app-cursor-paginator
         [nextCursorId]="nextCursorId()"
         [anyAdditionalRecords]="anyAdditionalRecords()"
+        (loadMore)="onLoadMore($event)"
       />
     }
   </div>

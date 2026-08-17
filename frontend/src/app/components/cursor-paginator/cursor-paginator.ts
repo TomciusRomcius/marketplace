@@ -6,19 +6,17 @@ import {
   inject,
   input,
   OnDestroy,
+  output,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cursor-paginator',
   templateUrl: './cursor-paginator.html',
 })
 export class CursorPaginator implements OnDestroy {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
-  /** Last item id from the current list; used as the next `cursor_id` query param. */
+  /** Last item id from the current list; emitted as the next page cursor. */
   readonly nextCursorId = input.required<number>();
 
   /**
@@ -27,8 +25,10 @@ export class CursorPaginator implements OnDestroy {
    */
   readonly anyAdditionalRecords = input(false);
 
+  readonly loadMore = output<number>();
+
   private observer: IntersectionObserver | null = null;
-  private lastNavigatedCursorId: number | null = null;
+  private lastEmittedCursorId: number | null = null;
 
   constructor() {
     afterNextRender(() => this.setupObserver());
@@ -36,7 +36,7 @@ export class CursorPaginator implements OnDestroy {
     effect(() => {
       this.nextCursorId();
       this.anyAdditionalRecords();
-      this.lastNavigatedCursorId = null;
+      this.lastEmittedCursorId = null;
     });
   }
 
@@ -53,16 +53,12 @@ export class CursorPaginator implements OnDestroy {
         }
 
         const nextCursorId = this.nextCursorId();
-        if (nextCursorId <= 0 || nextCursorId === this.lastNavigatedCursorId) {
+        if (nextCursorId <= 0 || nextCursorId === this.lastEmittedCursorId) {
           return;
         }
 
-        this.lastNavigatedCursorId = nextCursorId;
-        void this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { cursor_id: nextCursorId },
-          queryParamsHandling: 'merge',
-        });
+        this.lastEmittedCursorId = nextCursorId;
+        this.loadMore.emit(nextCursorId);
       },
       { root: null, rootMargin: '0px', threshold: 0 },
     );
