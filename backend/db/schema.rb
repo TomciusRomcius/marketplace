@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_17_093741) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_18_081729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -55,6 +55,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_093741) do
     t.index ["title"], name: "index_items_on_title", opclass: :gin_trgm_ops, using: :gin
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "buyer_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "item_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_purchases_on_buyer_id"
+    t.index ["item_id"], name: "index_purchases_on_item_id", unique: true
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -75,5 +84,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_17_093741) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "items", "users", column: "seller_id"
+  add_foreign_key "purchases", "items"
+  add_foreign_key "purchases", "users", column: "buyer_id"
   add_foreign_key "sessions", "users"
 end

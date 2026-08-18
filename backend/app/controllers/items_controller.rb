@@ -86,10 +86,7 @@ class ItemsController < ApplicationController
     if Current.user.id == item.seller_id
       render json: { message: "You cannot buy the item you own" }, status: :bad_request
     end
-    ActiveRecord::Base.transaction do
-      item.update!(status: "sold")
-      # TODO: persist purchase
-    end
+    
     head :ok
   end
 end

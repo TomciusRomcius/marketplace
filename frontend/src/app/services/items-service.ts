@@ -92,8 +92,12 @@ export class ItemsService {
   }
 
   purchaseItem(id: number): Observable<void> {
-    return this.http.get<void>(`${this.baseUrl}/items/${id}/purchase`, {
-      withCredentials: true,
-    });
+    return this.http.post<void>(`${this.baseUrl}/purchases`,
+      {
+        "item_id": id,
+      }, {
+        withCredentials: true,
+      }
+    );
   }
 }

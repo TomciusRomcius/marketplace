@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :purchases
   post "/users", to: "users#create"
   resource :session
   resources :items do
