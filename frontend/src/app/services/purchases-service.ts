@@ -23,4 +23,12 @@ export class PurchasesService {
       withCredentials: true,
     });
   }
+
+  purchaseItem(itemId: number): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/purchases`,
+      { item_id: itemId },
+      { withCredentials: true },
+    );
+  }
 }

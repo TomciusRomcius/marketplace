@@ -4,10 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from '../../components/button/button';
 import { ImageCarousel } from '../../components/image-carousel/image-carousel';
-import {
-  Item as ItemModel,
-  ItemsService,
-} from '../../services/items-service';
+import { Item as ItemModel } from '../../services/items-service';
+import { PurchasesService } from '../../services/purchases-service';
 
 @Component({
   selector: 'app-item',
@@ -17,7 +15,7 @@ import {
 export class Item {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly itemsService = inject(ItemsService);
+  private readonly purchasesService = inject(PurchasesService);
 
   readonly item = this.route.snapshot.data['item'] as ItemModel;
   readonly imageUrls = this.item.image_urls ?? [];
@@ -28,7 +26,7 @@ export class Item {
     this.error.set(null);
     this.purchasing.set(true);
 
-    this.itemsService.purchaseItem(this.item.id).subscribe({
+    this.purchasesService.purchaseItem(this.item.id).subscribe({
       next: () => {
         this.purchasing.set(false);
         void this.router.navigateByUrl('/browse');
