@@ -1,0 +1,48 @@
+<div class="min-h-screen bg-slate-50 px-4 py-8">
+  <div class="mx-auto max-w-3xl">
+    <h1 class="mb-6 text-2xl font-semibold text-slate-900">My purchases</h1>
+
+    @if (purchases().length === 0) {
+      <p class="text-slate-600">You have no purchases yet.</p>
+    } @else {
+      <div class="flex flex-col gap-3">
+        @for (purchase of purchases(); track purchase.purchase_id) {
+          <article
+            class="flex items-center gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+          >
+            <div
+              class="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-slate-100"
+            >
+              @if (purchase.item.image_url) {
+                <img
+                  [src]="purchase.item.image_url"
+                  [alt]="purchase.item.title"
+                  class="h-full w-full object-cover"
+                />
+              } @else {
+                <div
+                  class="flex h-full w-full items-center justify-center text-[10px] font-medium text-slate-400"
+                >
+                  No image
+                </div>
+              }
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <h2 class="truncate text-base font-medium text-slate-900">
+                {{ purchase.item.title }}
+              </h2>
+              <p class="mt-1 text-sm font-semibold text-slate-900">
+                {{ purchase.item.price_cents / 100 | currency }}
+              </p>
+              <p class="mt-1 text-xs text-slate-500">
+                Purchased
+                {{ purchase.created_at | date: 'mediumDate' }}
+              </p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</div>

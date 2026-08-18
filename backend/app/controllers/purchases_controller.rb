@@ -1,9 +1,14 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: %i[ show update destroy ]
-
   def index
-    @purchases = Current.user.purchases.all
-    render json: @purchases
+    purchases = Current.user.purchases.includes(item: { item_photo_attachments: :blob})
+    result = purchases.map do |p|
+      p.as_json.merge({
+        item: p.item.as_json.merge({
+          image_url: p.item.item_photo.first ? url_for(p.item.item_photo.first) : nil
+        })
+      })
+    end
+    render json: result
   end
 
   def show
@@ -38,6 +43,6 @@ class PurchasesController < ApplicationController
 
   # DELETE /purchases/1
   def destroy
-    @purchase.destroy!
+    purchase.destroy!
   end
 end

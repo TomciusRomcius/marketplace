@@ -24,27 +24,56 @@
       >
         My listings
       </a>
-      <a
-        routerLink="/login"
-        class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
-        aria-label="Account"
-        title="Account"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-5 w-5"
-          aria-hidden="true"
+
+      <div class="relative">
+        <button
+          type="button"
+          class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+          aria-label="Account menu"
+          title="Account"
+          [attr.aria-expanded]="menuOpen()"
+          (click)="toggleMenu($event)"
         >
-          <circle cx="12" cy="8" r="3.5" />
-          <path d="M5.5 19.5c1.8-3.2 4.2-4.5 6.5-4.5s4.7 1.3 6.5 4.5" />
-        </svg>
-      </a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-5 w-5"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="3.5" />
+            <path d="M5.5 19.5c1.8-3.2 4.2-4.5 6.5-4.5s4.7 1.3 6.5 4.5" />
+          </svg>
+        </button>
+
+        @if (menuOpen()) {
+          <div
+            class="absolute right-0 z-20 mt-2 w-44 overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+            role="menu"
+          >
+            <a
+              routerLink="/my-purchases"
+              role="menuitem"
+              class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
+              (click)="closeMenu()"
+            >
+              My purchases
+            </a>
+            <a
+              routerLink="/login"
+              role="menuitem"
+              class="block px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-slate-900"
+              (click)="closeMenu()"
+            >
+              Sign in
+            </a>
+          </div>
+        }
+      </div>
     </nav>
   </div>
 </header>
